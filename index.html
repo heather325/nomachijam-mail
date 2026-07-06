@@ -99,12 +99,9 @@
       <legend>差出人（ブラウザに保存され、次回も使えます）</legend>
       <label>担当者名 <span class="hint">(任意・空欄なら「のまちJAM実行委員会」名義)</span></label>
       <input id="sender" placeholder="空欄でOK">
-      <div class="grid2">
-        <div><label>メール</label><input id="email" value="nomachijam2026@gmail.com"></div>
-        <div><label>電話 <span class="hint">(任意)</span></label><input id="tel" placeholder="なし"></div>
-      </div>
-      <label>住所 <span class="hint">(任意)</span></label>
-      <input id="addr" placeholder="金沢市野町〇丁目〇番〇号">
+      <label>返信先メール</label>
+      <input id="email" value="nomachijam2026@gmail.com">
+      <p class="hint" style="margin:9px 0 0;">署名の会場情報（金沢市の施設である旨・住所・地図・Webサイト・過去開催リンク）は自動で入ります。</p>
     </fieldset>
 
     <div class="btns">
@@ -125,8 +122,8 @@
     <label style="margin-top:14px;">本文 <button class="ghost mini" id="copyBody" style="float:right;padding:3px 10px;">コピー</button></label>
     <pre id="body"></pre>
 
-    <p class="note">※ 今回の目的：出店可否の確認と日程確保のお願い。詳細な要項は7/9以降に案内、という前提で作成しています。<br>
-    ※ 概要リーフレット(PDF)を添付すると雰囲気が伝わりやすくなります。</p>
+    <p class="note">※ 今回の目的：出店可否の確認と日程確保のお願い。<br>
+    ※ 企画概要書は7/9以降にお渡しできるため、このメールには添付しません（詳しい資料はその後ご案内）。</p>
   </div>
 </div>
 
@@ -134,8 +131,8 @@
 
 <script>
 const $ = id => document.getElementById(id);
-const F = ['genre','relation','deadline','shop','person','honor','reason','sender','email','tel','addr'];
-const SIG = ['sender','email','tel','addr']; // 記憶する項目
+const F = ['genre','relation','deadline','shop','person','honor','reason','sender','email'];
+const SIG = ['sender','email']; // 記憶する項目
 
 const reasons = {
   food:   '地域の皆さんに楽しんでいただけるお料理を、ぜひご一緒したいと思い',
@@ -168,9 +165,7 @@ function buildBody(){
   const nameSuffix = senderName ? 'の' + senderName : '';
   const reason = $('reason').value.trim() || '〔お声がけの理由を一言〕';
   const deadline = $('deadline').value.trim() || '〔返信期限〕';
-  const email = $('email').value.trim() || '〔メールアドレス〕';
-  const tel = $('tel').value.trim();
-  const addr = $('addr').value.trim();
+  const email = $('email').value.trim() || 'nomachijam2026@gmail.com';
 
   // 依頼のお願い（モード別）
   let asks;
@@ -185,10 +180,11 @@ function buildBody(){
   const sig = ['――――――――――――――――',
     'のまちJAM実行委員会',
     senderName || null,
-    '金沢未来のまち創造館',
-    addr || null,
+    '会場：金沢未来のまち創造館（金沢市の複合施設）',
+    '住所：〒921-8031 石川県金沢市野町3丁目11-1',
+    '地図：https://www.google.com/maps/search/?api=1&query=金沢未来のまち創造館',
+    'Webサイト：https://www.mirai-nomachi.jp/',
     'Mail：' + email,
-    tel ? 'Tel：' + tel : null,
     '――――――――――――――――'].filter(Boolean).join('\n');
 
   return [
@@ -196,7 +192,9 @@ function buildBody(){
 ${person}${honor}`,
 `${rel}。金沢未来のまち創造館「のまちJAM」実行委員会${nameSuffix}と申します。
 このたびは、${reason}、ぜひ今年ののまちJAMに${m.invite}いただきたくご連絡いたしました。`,
-`のまちJAMは、金沢未来のまち創造館が旧野町小学校のグラウンドで毎年開催している地域のお祭りです。「ともに奏で、ともに灯し、ともにつくる」を合言葉に、子どもから大人まで多くの方でにぎわい、昨年は約2,000人にご来場いただきました。`,
+`のまちJAMは、金沢市の複合施設「金沢未来のまち創造館」が、旧野町小学校のグラウンドで2022年から毎年開催している地域のお祭りです。「ともに奏で、ともに灯し、ともにつくる」を合言葉に、子どもから大人まで多くの方でにぎわい、昨年は約2,000人にご来場いただきました。
+昨年（2025年）ののまちJAMの様子は、こちらのサイトでご覧いただけます。
+▶ https://nomachi-jam-2025.studio.site/`,
 `■ 開催概要
 ・名称：のまちJAM 2026
 ・日時：2026年9月27日（日）10:30〜18:00
